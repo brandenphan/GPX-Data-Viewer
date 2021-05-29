@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>GPS Data Viewer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="A website regarding various GPX data features"
+		/>
+		<meta name="keywords" content="A website" />
+		<meta name="author" content="Branden Phan 1104726" />
+		<!-- Load jquery, bootstrap -->
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+			crossorigin="anonymous"
+		></script>
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+			crossorigin="anonymous"
+		></script>
+		<!-- Custom CSS -->
+		<link rel="stylesheet" type="text/css" href="/style.css" />
+		<!-- Custom CSS End -->
+	</head>
+	<body>
+		<!-- Web page title -->
+		<h1>GPS Data Viewer</h1>
+
+		<hr />
+
+		<!-- File log table -->
+		<h2>File Log</h2>
+		<div class="FileLog table-responsive">
+			<table class="table FileLogTable table-bordered">
+				<thead>
+					<tr class="FileLogTableHeader">
+						<th scope="col">File Name (click to download)</th>
+						<th scope="col">Version</th>
+						<th scope="col">Creator</th>
+						<th scope="col">Number of Waypoints</th>
+						<th scope="col">Number of Routes</th>
+						<th scope="col">Number of Tracks</th>
+					</tr>
+				</thead>
+				<tbody id="FileLogRows"></tbody>
+			</table>
+		</div>
+
+		<!-- Choose file/upload options -->
+		<form
+			ref="uploadForm"
+			id="uploadForm"
+			action="/upload"
+			method="post"
+			enctype="multipart/form-data"
+		>
+			<div class="form-group">
+				<input type="file" name="uploadFile" class="btn btn-secondary button" />
+				<input type="submit" value="Upload" class="btn btn-secondary button" />
+			</div>
+		</form>
+
+		<!-- Alert view panel for the website to show users any issues while using the website -->
+		<hr />
+		<p class="statusTitle">Alerts</p>
+		<div id="statusContainer" class="statusContainer"></div>
+
+		<!-- GPX view panel header with File drop down and Show Other Data Button -->
+		<hr />
+		<h3 class="ViewPanelHeader">GPX View Panel</h3>
+		<div class="row ViewPanelContainer">
+			<button
+				class="btn btn-primary dropdown-toggle dropDownButton button col-md-1"
+				type="button"
+				data-toggle="dropdown"
+				aria-haspopup="true"
+				aria-expanded="false"
+			>
+				Files
+			</button>
+			<div
+				class="dropdown-menu"
+				id="fileDropdownMenu"
+				aria-labelledby="dropdownMenuButton"
+			></div>
+			<button
+				type="button"
+				class="btn btn-primary RenameButton col-md-1 offset-md-2"
+				data-toggle="modal"
+				data-target="#RenameButton"
+				id="Rename"
+			>
+				Rename
+			</button>
+			<button
+				type="button"
+				class="btn btn-primary button ShowOtherData col-md-2 offset-md-2"
+				data-toggle="modal"
+				data-target="#OtherDataButton"
+				id="ShowOtherData"
+			>
+				Show Other Data
+			</button>
+			<button
+				type="button"
+				class="btn btn-primary addRouteButton col-md-1 offset-md-2"
+				data-toggle="modal"
+				data-target="#addRouteModal"
+				id="AddRouteButton"
+			>
+				Add Route
+			</button>
+		</div>
+
+		<!-- Bootstrap modal for Show Other Data button -->
+		<div
+			class="modal fade"
+			id="OtherDataButton"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">GPX Other Data</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Please choose a component</p>
+						<div
+							id="ContainerForOtherDataButtons"
+							class="spaceBetweenButtons"
+						></div>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							id="showOtherDataModalPopup"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap modal for the rename button -->
+		<div
+			class="modal fade"
+			id="RenameButton"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Rename Component</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Please choose a component to rename</p>
+						<div
+							id="ContainerForRenameComponentButtons"
+							class="spaceBetweenButtons"
+						></div>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap modal for Rename component button -->
+		<div
+			class="modal fade"
+			id="RenameForm"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Rename Component</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="NewName">Enter a new name</label>
+								<input
+									type="text"
+									class="form-control"
+									id="nameBox"
+									placeholder="New Name"
+								/>
+							</div>
+							<button
+								type="button"
+								class="btn btn-primary Button"
+								id="RenameSubmitButton"
+								data-dismiss="modal"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- GPX view panel table -->
+		<div class="ViewPanel table-responsive">
+			<table class="table ViewPanelTable table-bordered table">
+				<thead>
+					<tr class="ViewPanelTable">
+						<th scope="col">Component</th>
+						<th scope="col">Name</th>
+						<th scope="col">Number of Points</th>
+						<th scope="col">Length</th>
+						<th scope="col">Loop</th>
+					</tr>
+				</thead>
+				<tbody class="ViewPanelBody" id="ViewPanelRows">
+					<tr>
+						<th scope="row">No File Selected</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Action buttons -->
+		<hr />
+		<h4 class="GPXOptionsHeader">GPX Options</h4>
+		<div class="row otherButtons">
+			<button
+				type="button"
+				class="btn btn-primary createGPXButton featureButtons col-md-2 offset-md-3"
+				data-dismiss="modal"
+				data-toggle="modal"
+				data-target="#createGPXForm"
+			>
+				Create GPX
+			</button>
+			<button
+				type="button"
+				class="btn btn-primary featureButtons col-md-1 offset-md-2"
+				data-dismiss="modal"
+				data-toggle="modal"
+				data-target="#findPathBetweenModal"
+			>
+				Find Path
+			</button>
+		</div>
+		<div class="row otherButtons">
+			<button
+				type="button"
+				class="btn btn-primary featureButtons col-md-3 offset-md-2"
+				data-dismiss="modal"
+				data-toggle="modal"
+				data-target="#numberRoutesBetweenModal"
+			>
+				Number Routes with Length
+			</button>
+			<button
+				type="button"
+				class="btn btn-primary featureButtons col-md-3 offset-md-2"
+				data-dismiss="modal"
+				data-toggle="modal"
+				data-target="#numberTracksBetweenModal"
+			>
+				Number Tracks with Length
+			</button>
+		</div>
+
+		<!-- Bootstrap modal for Create GPX button -->
+		<div
+			class="modal fade"
+			id="createGPXForm"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Create new GPX file
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="NewName">Version is automatically set to 1.1</label>
+							</div>
+							<div class="form-group">
+								<label for="addCreator">Enter a creator</label>
+								<input
+									type="text"
+									class="form-control"
+									id="addCreatorForm"
+									placeholder="New Creator"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="addFileName"
+									>Enter a file name (please include .gpx extension)</label
+								>
+								<input
+									type="text"
+									class="form-control"
+									id="addFileNameForm"
+									placeholder="New File"
+								/>
+							</div>
+							<button
+								type="button"
+								class="btn btn-primary Button"
+								id="submitNewGPX"
+								data-dismiss="modal"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap modal for the add route button -->
+		<div
+			class="modal fade"
+			id="addRouteModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Route</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group" id="RouteModal">
+								<label for="NewName">Enter a new route name</label>
+								<input
+									type="text"
+									class="form-control"
+									id="newRouteName"
+									placeholder="New Route Name"
+								/>
+								<button
+									type="button"
+									class="btn btn-primary Button AddWaypointButton"
+									id="AddWaypointButton"
+									data-toggle="modal"
+									data-target="#addingWaypointsModal"
+								>
+									Add Waypoint
+								</button>
+							</div>
+							<div class="AddedWaypoints" id="AddedWaypoints">
+								<label>Waypoints to be added to the Route:</label>
+							</div>
+							<div id="AddRouteContainer">
+								<button
+									type="button"
+									class="btn btn-primary Button"
+									id="AddRouteSubmitButton"
+									data-dismiss="modal"
+								>
+									Submit
+								</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelRouteButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap modal for Adding waypoints -->
+		<div
+			class="modal fade"
+			id="addingWaypointsModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Waypoint</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="NewName">Enter a latitude</label>
+								<input
+									type="text"
+									class="form-control"
+									id="latitudeForm"
+									placeholder="Latitude"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="NewName">Enter a longitude</label>
+								<input
+									type="text"
+									class="form-control"
+									id="longitudeForm"
+									placeholder="Longitude"
+								/>
+							</div>
+							<button
+								type="button"
+								class="btn btn-primary Button"
+								id="waypointSubmitButton"
+								data-dismiss="modal"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap modal find path between button -->
+		<div
+			class="modal fade"
+			id="findPathBetweenModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Find Path Between
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<label for="sourceInputs">Source</label>
+							<div class="form-group">
+								<label for="sourceLatitude">Enter a latitude</label>
+								<input
+									type="text"
+									class="form-control"
+									id="sourceLatitudeForm"
+									placeholder="Latitude"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="NewName">Enter a longitude</label>
+								<input
+									type="text"
+									class="form-control"
+									id="sourceLongitudeForm"
+									placeholder="Longitude"
+								/>
+							</div>
+							<br />
+							<label for="destInputs">Destination</label>
+							<div class="form-group">
+								<label for="destLatitude">Enter a latitude</label>
+								<input
+									type="text"
+									class="form-control"
+									id="destLatitudeForm"
+									placeholder="Latitude"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="destLongitude">Enter a longitude</label>
+								<input
+									type="text"
+									class="form-control"
+									id="destLongitudeForm"
+									placeholder="Longitude"
+								/>
+							</div>
+							<br />
+							<div class="form-group">
+								<label for="deltaForm">Enter a delta</label>
+								<input
+									type="text"
+									class="form-control"
+									id="deltaForm"
+									placeholder="Delta"
+								/>
+							</div>
+							<button
+								type="button"
+								class="btn btn-primary Button"
+								id="findPathSubmitButton"
+								data-dismiss="modal"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Find Path Table -->
+		<h5 id="FindPathTableHeader">Find Path Table</h5>
+		<div class="ViewPanel table-responsive" id="FindPathTable">
+			<table class="table ViewPanelTable table-bordered table">
+				<thead>
+					<tr class="ViewPanelTable">
+						<th scope="col">Component</th>
+						<th scope="col">Name</th>
+						<th scope="col">Number of Points</th>
+						<th scope="col">Length</th>
+						<th scope="col">Loop</th>
+					</tr>
+				</thead>
+				<tbody class="ViewPanelBody" id="FindPathTableBody"></tbody>
+			</table>
+		</div>
+
+		<!-- Bootstrap modal for number of routes between -->
+		<div
+			class="modal fade"
+			id="numberRoutesBetweenModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Number of Routes with Length
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="NewName">Enter a length</label>
+								<input
+									type="text"
+									class="form-control"
+									id="numberOfRoutesLength"
+									placeholder="Length"
+								/>
+							</div>
+							<button
+								type="button"
+								class="btn btn-primary Button"
+								id="numberOfRoutesSubmit"
+								data-dismiss="modal"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap modal for number of tracks between -->
+		<div
+			class="modal fade"
+			id="numberTracksBetweenModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Number of Tracks with Length
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="NewName">Enter a length</label>
+								<input
+									type="text"
+									class="form-control"
+									id="numberOfTracksLength"
+									placeholder="Length"
+								/>
+							</div>
+							<button
+								type="button"
+								class="btn btn-primary Button"
+								id="numberOfTracksSubmit"
+								data-dismiss="modal"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary Button"
+							data-dismiss="modal"
+							onclick="cancelButton()"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Leave me at the bottom of body -->
+		<script src="/index.js"></script>
+	</body>
+</html>

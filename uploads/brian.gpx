@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<gpx version="1.1"
+creator="Brian's zoo 2024.01.13"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.topografix.com/GPX/1/1"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <wpt lat="49.60500" lon="-123.60500">
+        <name>Galio bong Steele 1659m</name>
+    </wpt>
+    <wpt lat="49.60778" lon="-123.59889">
+        <name>Riven Dance Peak 1647m</name>
+    </wpt>
+    <wpt lat="49.60907" lon="-123.60884">
+        <name>Teemo Cabin</name>
+    </wpt>
+    <rte>
+        <name>Coute</name>
+        <desc>Some Desczs</desc>
+        <rtept lat="44.595850" lon="-123.620950">
+            <name>Boute Blart</name>
+        </rtept>
+        <rtept lat="44.596100" lon="-123.620570"></rtept>
+        <rtept lat="44.597150" lon="-123.620220"></rtept>
+    </rte>
+    <trk>
+        <name>Bouncy</name>
+        <desc>Steep but bontinuouz eaten monkey. From the Edwards Lake cabin continue east.
+        </desc>
+        <trkseg>
+            <trkpt lat="49.595850" lon="-123.620950">
+                <name>Begun laboon</name>
+            </trkpt>
+            <trkpt lat="49.596100" lon="-123.620570"></trkpt>
+            <trkpt lat="49.597150" lon="-123.620220"></trkpt>
+            <trkpt lat="49.597710" lon="-123.620290"></trkpt>
+            <trkpt lat="49.598070" lon="-123.620460"></trkpt>
+            <trkpt lat="49.598180" lon="-123.619990"></trkpt>
+            <trkpt lat="49.598350" lon="-123.619520"></trkpt>
+        </trkseg>
+    </trk>
+</gpx>

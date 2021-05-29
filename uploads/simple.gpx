@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<gpx version="1.1"
+creator="Denis Nikitenko 2021.01.13"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.topografix.com/GPX/1/1"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <wpt lat="49.60500" lon="-123.60500">
+        <name>Mount Steele 1659m</name>
+    </wpt>
+    <wpt lat="49.60778" lon="-123.59889">
+        <name>Raven Dance Peak 1647m</name>
+    </wpt>
+    <wpt lat="49.60907" lon="-123.60884">
+        <name>Steele Cabin</name>
+    </wpt>
+    <rte>
+        <name>Some route</name>
+        <desc>Some description</desc>
+        <rtept lat="44.595850" lon="-123.620950">
+            <name>Route Start</name>
+        </rtept>
+        <rtept lat="44.596100" lon="-123.620570"></rtept>
+        <rtept lat="44.597150" lon="-123.620220"></rtept>
+    </rte>
+    <trk>
+        <name>Mount Steele Trail</name>
+        <desc>Steep but continuous beaten path. From the Edwards Lake cabin continue east.
+        </desc>
+        <trkseg>
+            <trkpt lat="49.595850" lon="-123.620950">
+                <name>Track Start</name>
+            </trkpt>
+            <trkpt lat="49.596100" lon="-123.620570"></trkpt>
+            <trkpt lat="49.597150" lon="-123.620220"></trkpt>
+            <trkpt lat="49.597710" lon="-123.620290"></trkpt>
+            <trkpt lat="49.598070" lon="-123.620460"></trkpt>
+            <trkpt lat="49.598180" lon="-123.619990"></trkpt>
+            <trkpt lat="49.598350" lon="-123.619520"></trkpt>
+        </trkseg>
+    </trk>
+</gpx>

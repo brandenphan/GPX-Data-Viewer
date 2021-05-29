@@ -1,0 +1,164 @@
+html {
+	width: 60%;
+	height: 100%;
+	min-height: 100%;
+	margin: 0 auto;
+	font-size: 16px;
+	background-color: #ffffff;
+}
+body {
+	height: 100%;
+	min-height: 100%;
+	line-height: 1.75;
+	background-color: #ffffff;
+}
+* {
+	font-family: "Source Sans Pro", sans-serif;
+}
+h1 {
+	text-align: center;
+	font-size: 40px;
+}
+h2,
+h3,
+h4,
+h5 {
+	text-align: center;
+	font-size: 30px;
+	font-weight: normal;
+}
+table {
+	width: 100%;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+}
+.FileLogTableHeader th {
+	text-align: center;
+	padding: 30px;
+}
+tbody tr th {
+	text-align: center;
+	padding: 20px;
+}
+tbody tr:hover {
+	background: rgb(234, 232, 247);
+}
+thead {
+	background-color: rgb(214, 209, 223);
+}
+.FileLog,
+.ViewPanel {
+	overflow-y: auto;
+	height: 300px;
+}
+.ViewPanelContainer {
+	margin-left: 10px;
+}
+.ViewPanelContainer .button {
+	background-color: rgb(114, 114, 252);
+	width: 100px;
+	height: 45px;
+}
+.ViewPanelBody tr th {
+	text-align: center;
+	padding: 20px;
+}
+.ShowOtherData {
+	margin-left: 165px;
+}
+a:link:hover {
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	text-decoration: underline;
+	cursor: pointer;
+	cursor: hand;
+}
+.button:hover {
+	background: rgb(91, 91, 243);
+}
+.ViewPanel {
+	margin-top: 10px;
+}
+.ViewPanelTable th {
+	text-align: center;
+	padding: 30px;
+}
+.Button,
+.RenameButton {
+	background-color: rgb(114, 114, 252);
+}
+.ShowOtherData {
+	margin-right: 30px;
+}
+.RenameButton {
+	margin-right: 60px;
+}
+.Button:hover,
+.RenameButton:hover,
+.createGPXButton:hover,
+.addRouteButton:hover {
+	background: rgb(91, 91, 243);
+}
+.addRouteButton {
+	background-color: rgb(114, 114, 252);
+}
+.createGPXButton,
+.featureButtons {
+	margin-top: 50px;
+	background-color: rgb(114, 114, 252);
+	margin-bottom: 20px;
+}
+.statusTitle {
+	font-size: 30px;
+	text-align: center;
+	margin-top: -10px;
+}
+.statusContainer {
+	height: 130px;
+	overflow-y: auto;
+	padding-left: 20px;
+	padding-top: 10px;
+	margin-top: -20px;
+	border-style: groove;
+	border-radius: 15px;
+}
+.otherButtons {
+	margin-top: -40px;
+}
+.spaceBetweenButtons Button + Button {
+	margin-left: 10px;
+}
+
+input[type="submit"],
+button {
+	cursor: pointer;
+	cursor: hand;
+	height: 45px;
+	background: rgb(114, 114, 252);
+	margin-top: 15px;
+}
+input[type="file"] {
+	height: 45px;
+	background: rgb(114, 114, 252);
+	margin-top: 15px;
+}
+@media (max-width: 900px) {
+	html {
+		font-size: 14px !important;
+		width: 80% !important;
+	}
+}
+@media (max-width: 480px) {
+	html {
+		font-size: 12px !important;
+		width: 90% !important;
+	}
+}
+@media (max-width: 320px) {
+	html {
+		font-size: 12px !important;
+		width: 100% !important;
+	}
+}
