@@ -22,7 +22,7 @@ JavaScript
 
 Node.js
 
-Express
+Express.js
 
 HTML
 
