@@ -20,7 +20,7 @@ Save uploaded files to a MySQL database
 # Technologies
 JavaScript
 
-Node
+Node.js
 
 Express
 
