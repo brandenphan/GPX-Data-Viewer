@@ -4,28 +4,28 @@ This project is a fullstack web-application with a frontend written in Javascrip
 
 # Implementations
 
-Display various GPX file information stored on the server in readable manner
+- Display various GPX file information stored on the server in readable manner
 
-Upload GPX files to the server
+- Upload GPX files to the server
 
-Download GPX files from the server
+- Download GPX files from the server
 
-Update GPX files on the server
+- Update GPX files on the server
 
-Create new GPX files on the server
+- Create new GPX files on the server
 
-Save uploaded files to a MySQL database
+- Save uploaded files to a MySQL database
 
 
 # Technologies
-JavaScript
+ -JavaScript
 
-Node.js
+- Node.js
 
-Express.js
+- Express.js
 
-HTML
+- HTML
 
-CSS/Bootstrap
+- CSS/Bootstrap
 
-C
+- C
