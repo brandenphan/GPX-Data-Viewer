@@ -18,6 +18,7 @@ This project is a fullstack web-application with a frontend written in Javascrip
 
 
 # Technologies
+
 - JavaScript
 
 - Node.js
